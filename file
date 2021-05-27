@@ -1,0 +1,200 @@
+#include<iostream>
+#include<string>
+using namespace std;
+class Employee
+{
+private:
+	string name, ID;
+public:
+	Employee(string str1, string str2)
+	{
+		name = str1;
+		ID = str2;
+	}
+	Employee(void)
+	{
+		name = "";
+		ID = "";
+		cout << "I do not initialize this data!" << endl;
+	}
+	~Employee() {}
+	virtual void Show(void)
+	{
+		cout << "Name:" << name << endl;
+		cout << "ID:" << ID << endl;
+	}
+	void ChangeName(void);
+	void ChangeID(void);
+	virtual void ChangeData(void)
+	{
+		int i = -1;
+		do
+		{
+			cout << "Which part data do you want to change?" << endl;
+			cout << "Num 1 for name,num 2 for ID,num 0 for breaking" << endl;
+			cin >> i;
+			if (i == 1) {
+				ChangeName();
+			}
+			else if (i == 2)
+			{
+				ChangeID();
+			}
+		} while (i != 0);
+	}
+	virtual double Payment(void) = 0;
+};
+class Manager :public Employee
+{
+private:
+	double salary;
+public:
+	Manager(string str1, string str2, double f) :Employee(str1, str2), salary(f) {}
+	Manager() :Employee() {
+		salary = 0;
+		cout << "initialize!!!" << endl;
+	}
+	void Show(void)
+	{
+		Employee::Show();
+		cout << "Salary:" << salary << endl;
+		cout << "Pay:" << Payment() << endl;
+	}
+	void ChangeSalary(void);
+	void ChangeData(void)
+	{
+		int i = -1;
+		do
+		{
+			cout << "Which part data do you want to change?" << endl;
+			cout << "Num 1 for name,num 2 for ID, num 3 for salary,num 0 for breaking" << endl;
+			cin >> i;
+			if (i == 1) {
+				ChangeName();
+			}
+			else if (i == 2)
+			{
+				ChangeID();
+			}
+			else if (i == 3)
+				ChangeSalary();
+		} while (i != 0);
+	}
+	~Manager() {}
+	double Payment(void)
+	{
+		return salary;
+	}
+};
+class Technician :public Employee
+{
+private:
+	double wage, hours;
+public:
+	Technician(string str1, string str2, double w, double h) :Employee(str1, str2), wage(w), hours(h) {}
+	Technician() :Employee()
+	{
+		wage = 0;
+		hours = 0;
+		cout << "Initialise!!!" << endl;
+	}
+	~Technician() {}
+	void Show(void)
+	{
+		Employee::Show();
+		cout << "Wage:" << wage << endl;
+		cout << "Hours:" << hours << endl;
+		cout << "Pay:" << Payment() << endl;
+	}
+	double Payment(void)
+	{
+		return (wage * hours);
+	}
+	void ChangeData(void)
+	{
+		int i = -1;
+		do
+		{
+			cout << "Which part data do you want to change?" << endl;
+			cout << "Num 1 for name,num 2 for ID,num 3 for wage,num 4 for hours,num 0 for breaking" << endl;
+			cin >> i;
+			if (i == 1) {
+				ChangeName();
+			}
+			else if (i == 2)
+			{
+				ChangeID();
+			}
+			else if (i == 3)
+			{
+				ChangeWage();
+			}
+			else if (i == 4)
+			{
+				ChangeHours();
+			}
+		} while (i != 0);
+	}
+	void ChangeWage(void);
+	void ChangeHours(void);
+};
+void Employee::ChangeName(void)
+{
+	cout << "Name?" << endl;
+	string s;
+	cin >> s;
+	name = s;
+	cout << "Finished!" << endl;
+}
+void Employee::ChangeID(void)
+{
+	cout << "ID?" << endl;
+	string s;
+	cin >> s;
+	ID = s;
+	cout << "ID finished!" << endl;
+}
+void Manager::ChangeSalary(void)
+{
+	cout << "Salary?" << endl;
+	double p;
+	cin >> p;
+	salary = p;
+	cout << " Salaty Finished!" << endl;
+}
+void Technician::ChangeWage(void)
+{
+	double w;
+	cout << "Wage?" << endl;
+	cin >> w;
+	wage = w;
+	cout << "Wage finished!!!" << endl;
+}
+void Technician::ChangeHours(void)
+{
+	cout << "Hours?" << endl;
+	double h;
+	cin >> h;
+	hours = h;
+}
+void Change(Employee& s)
+{
+	s.ChangeData();
+}
+double Pay(Employee& p)
+{
+	return (p.Payment());
+}
+void Show(Employee& w)
+{
+	w.Show();
+}
+int main(void)
+{
+	Manager person1("wangwu", "001", 1000);
+	Show(person1);
+	Technician person2("liuxiaoba", "002", 100, 30);
+	Show(person2);
+	Change(person1);
+	Show(person1);
+}
